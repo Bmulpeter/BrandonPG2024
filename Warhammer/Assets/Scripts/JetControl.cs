@@ -5,12 +5,15 @@ using UnityEngine;
 
 public class JetControl : MonoBehaviour
 {
+    Rigidbody rb;
     Vector3 velocity, accelaration;
     float Thrustvalue = 100f, turningSpeed = 180, resistance = 2f;
+    Animation shipAnimations;
     // Start is called before the first frame update
     void Start()
     {
-        
+        shipAnimations = GetComponentInChildren<Animation>();
+        rb = GetComponentInChildren<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -21,16 +24,61 @@ public class JetControl : MonoBehaviour
         if (shouldTurnLeft()) TurnLeft();
         if (shouldTurnRight()) TurnRight();
         if (shouldSlow()) SlowDown();
-        
+        if (shouldRollLeft()) RollLeft();
+        if (shouldRollRight()) RollRight();
+        if (shouldPitchUp()) PitchUp();
+        if (shouldPitchDown()) PitchDown();
+
+
 
         accelaration -= resistance * velocity;
         velocity+=accelaration * Time.deltaTime;
         transform.position += velocity * Time.deltaTime;
     }
 
+    private void PitchDown()
+    {
+        transform.Rotate(Vector3.left, -turningSpeed * Time.deltaTime);
+    }
+
+    private bool shouldPitchDown()
+    {
+        return Input.GetKey(KeyCode.DownArrow);
+    }
+
+    private void PitchUp()
+    {
+        transform.Rotate(Vector3.left, turningSpeed * Time.deltaTime);
+    }
+
+    private bool shouldPitchUp()
+    {
+        return Input.GetKey(KeyCode.UpArrow);
+    }
+
+    private void RollRight()
+    {
+        transform.Rotate(Vector3.forward, -turningSpeed * Time.deltaTime);
+    }
+
+    private bool shouldRollRight()
+    {
+        return Input.GetKey(KeyCode.RightArrow);
+    }
+
+    private void RollLeft()
+    {
+        transform.Rotate(Vector3.forward, turningSpeed * Time.deltaTime);
+    }
+
+    private bool shouldRollLeft()
+    {
+       return Input.GetKey(KeyCode.LeftArrow);
+    }
+
     private void SlowDown()
     {
-        accelaration -= Thrustvalue * transform.forward;
+        rb.AddForce(-Thrustvalue * transform.forward);
     }
 
     private bool shouldSlow()
@@ -40,7 +88,7 @@ public class JetControl : MonoBehaviour
 
     private void TurnRight()
     {
-        transform.Rotate(transform.up, -turningSpeed * Time.deltaTime);
+        transform.Rotate(Vector3.up, -turningSpeed * Time.deltaTime);
     }
 
     private bool shouldTurnRight()
@@ -50,7 +98,7 @@ public class JetControl : MonoBehaviour
 
     private void TurnLeft()
     {
-        transform.Rotate(transform.up, turningSpeed * Time.deltaTime);
+        transform.Rotate(Vector3.up, turningSpeed * Time.deltaTime);
     }
 
     private bool shouldTurnLeft()
@@ -60,7 +108,7 @@ public class JetControl : MonoBehaviour
 
     private void Thrust()
     {
-        accelaration = Thrustvalue * transform.forward;
+        rb.AddForce( Thrustvalue * transform.forward);
     }
 
     private bool shouldThrust()
