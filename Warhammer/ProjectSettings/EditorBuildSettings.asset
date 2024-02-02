@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/PG24/Main Menu.unity
+    guid: 181a717c8c21cc4479d9c952272b6e95
+  - enabled: 1
+    path: Assets/PG24/PrototypeJet.unity
+    guid: 29cad99c44ec70a40a3f1da864e8afd5
   m_configObjects: {}

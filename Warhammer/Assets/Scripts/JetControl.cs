@@ -28,17 +28,17 @@ public class JetControl : MonoBehaviour
         if (shouldRollRight()) RollRight();
         if (shouldPitchUp()) PitchUp();
         if (shouldPitchDown()) PitchDown();
+        
 
 
 
         accelaration -= resistance * velocity;
-        velocity+=accelaration * Time.deltaTime;
         transform.position += velocity * Time.deltaTime;
     }
 
     private void PitchDown()
     {
-        transform.Rotate(Vector3.left, -turningSpeed * Time.deltaTime);
+        transform.Rotate(Vector3.left, turningSpeed * Time.deltaTime);
     }
 
     private bool shouldPitchDown()
@@ -48,7 +48,7 @@ public class JetControl : MonoBehaviour
 
     private void PitchUp()
     {
-        transform.Rotate(Vector3.left, turningSpeed * Time.deltaTime);
+        transform.Rotate(Vector3.left, -turningSpeed * Time.deltaTime);
     }
 
     private bool shouldPitchUp()
@@ -79,6 +79,7 @@ public class JetControl : MonoBehaviour
     private void SlowDown()
     {
         rb.AddForce(-Thrustvalue * transform.forward);
+        
     }
 
     private bool shouldSlow()
@@ -88,7 +89,7 @@ public class JetControl : MonoBehaviour
 
     private void TurnRight()
     {
-        transform.Rotate(Vector3.up, -turningSpeed * Time.deltaTime);
+        transform.Rotate(Vector3.up, turningSpeed * Time.deltaTime);
     }
 
     private bool shouldTurnRight()
@@ -98,7 +99,7 @@ public class JetControl : MonoBehaviour
 
     private void TurnLeft()
     {
-        transform.Rotate(Vector3.up, turningSpeed * Time.deltaTime);
+        transform.Rotate(Vector3.up, -turningSpeed * Time.deltaTime);
     }
 
     private bool shouldTurnLeft()
