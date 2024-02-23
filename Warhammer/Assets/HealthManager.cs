@@ -20,7 +20,7 @@ public class HealthManager : MonoBehaviour
     {
         if (HealthAmount <= 0)
         {
-          //  SceneManager.LoadScene(String LoadedScene);
+           SceneManager.LoadScene("PG24/PrototypeJet");
         }
         if (Input.GetKeyDown(KeyCode.Return))
         {

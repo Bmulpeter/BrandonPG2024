@@ -5,7 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/PG24/Main Menu.unity
     guid: 181a717c8c21cc4479d9c952272b6e95
   - enabled: 1
