@@ -6,12 +6,19 @@ using UnityEngine;
 public class JetControl : MonoBehaviour
 {
     Rigidbody rb;
+    OutOfBounds textWarning;
     Vector3 velocity, accelaration;
-    float Thrustvalue = 100f, turningSpeed = 180, resistance = 2f;
+    float Thrustvalue = 150f, turningSpeed = 180, resistance = 2f;
     Animation shipAnimations;
+    private float max_distance = 1500;
+    private float closeToBorder = 1000;
+    private float OutOfBounds = 800;
+
     // Start is called before the first frame update
     void Start()
-    {
+    {   
+        textWarning = FindObjectOfType<OutOfBounds>();
+
         shipAnimations = GetComponentInChildren<Animation>();
         rb = GetComponentInChildren<Rigidbody>();
     }
@@ -19,6 +26,14 @@ public class JetControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (transform.position.magnitude > max_distance)
+            textWarning.warning("Game Over");
+
+
+        if (transform.position.magnitude > closeToBorder)
+            print("Turn Back");
+        if (transform.position.magnitude > OutOfBounds)
+            print("Out of Bounds");
         accelaration = Vector3.zero;
         if (shouldThrust()) Thrust();
         if (shouldTurnLeft()) TurnLeft();
@@ -32,13 +47,14 @@ public class JetControl : MonoBehaviour
 
 
 
-        accelaration -= resistance * velocity;
-        transform.position += velocity * Time.deltaTime;
+       //// accelaration -= resistance * velocity;
+       // transform.position += velocity * Time.deltaTime;
     }
 
     private void PitchDown()
     {
-        transform.Rotate(Vector3.left, turningSpeed * Time.deltaTime);
+        rb.AddRelativeTorque(Vector3.right *100);
+        //transform.Rotate(Vector3.left, turningSpeed * Time.deltaTime);
     }
 
     private bool shouldPitchDown()
@@ -48,7 +64,7 @@ public class JetControl : MonoBehaviour
 
     private void PitchUp()
     {
-        transform.Rotate(Vector3.left, -turningSpeed * Time.deltaTime);
+        rb.AddRelativeTorque(-Vector3.right * 100);
     }
 
     private bool shouldPitchUp()
