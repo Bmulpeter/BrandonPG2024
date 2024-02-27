@@ -13,10 +13,23 @@ public class JetControl : MonoBehaviour
     private float max_distance = 1500;
     private float closeToBorder = 1000;
     private float OutOfBounds = 800;
-
+    private GameObject Object001;
+    List<Transform> allMissiles;
     // Start is called before the first frame update
     void Start()
-    {   
+    {
+        allMissiles = new List<Transform>();
+
+        for (int i = 0; i < transform.GetChild(0).childCount; i++)
+        {
+            print(transform.GetChild(0).GetChild(i).name);
+
+            if (transform.GetChild(0).GetChild(i).name.StartsWith("Object"))
+            {
+                allMissiles.Add(transform.GetChild(0).GetChild(i));
+            }
+        }
+
         textWarning = FindObjectOfType<OutOfBounds>();
 
         shipAnimations = GetComponentInChildren<Animation>();
@@ -43,12 +56,23 @@ public class JetControl : MonoBehaviour
         if (shouldRollRight()) RollRight();
         if (shouldPitchUp()) PitchUp();
         if (shouldPitchDown()) PitchDown();
+        if (shouldFireWeapon()) FireWeapon();
         
 
 
 
        //// accelaration -= resistance * velocity;
        // transform.position += velocity * Time.deltaTime;
+    }
+
+    private void FireWeapon()
+    {
+        Instantiate(allMissiles[0], allMissiles[0].position, allMissiles[0].rotation);
+    }
+
+    private bool shouldFireWeapon()
+    {
+        return Input.GetKey(KeyCode.Z);
     }
 
     private void PitchDown()
